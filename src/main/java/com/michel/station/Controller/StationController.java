@@ -1,2 +1,4 @@
-package com.michel.station.Controller;public class StationController {
+package com.michel.station.Controller;
+
+public class StationController {
 }
