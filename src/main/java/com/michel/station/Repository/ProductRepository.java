@@ -48,6 +48,24 @@ public class ProductRepository {
         return product;
     }
 
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM Product";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setProduct_id(resultSet.getInt("product_id"));
+                product.setStation_id(resultSet.getInt("station_id"));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting all products.");
+            e.printStackTrace();
+        }
+        return products;
+    }
+
     public List<Product> getAllProductsByStation(int stationId) {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM Product WHERE station_id = ?";
