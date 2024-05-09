@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EvaporationRate {
-    private Long productId;
-    private double evaporationRate;
+public class StationMovement {
+    private int movement_id;
+    private int station_id;
 }

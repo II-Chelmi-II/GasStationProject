@@ -5,11 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Station {
-    private int station_id;
-    private String location;
+public class Movement {
+    private int movement_id;
+    private String type;
+    private int stock;
+    private LocalDate date;
 }

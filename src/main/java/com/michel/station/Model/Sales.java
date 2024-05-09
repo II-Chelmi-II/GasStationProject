@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sales {
-    private Long stationId;
-    private Long productId;
-    private java.sql.Timestamp salesDateTime;
-    private double quantitySold;
-    private double amountSold;
+    private int sale_id;
+    private int product_id;
+    private int station_id;
+    private BigDecimal amount;
 }

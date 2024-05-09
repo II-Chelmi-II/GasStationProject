@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceHistory {
-    private Long productId;
-    private double price;
-    private Date effectiveDate;
+public class ProductTemplate {
+    private int product_id;
+    private String name;
+    private int product_price_id;
 }
