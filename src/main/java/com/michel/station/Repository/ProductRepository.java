@@ -17,10 +17,11 @@ public class ProductRepository {
     }
 
     public void createProduct(Product product) {
-        String query = "INSERT INTO Product (product_id, station_id) VALUES (?, ?)";
+        String query = "INSERT INTO Product (product_id, station_id, stock) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, product.getProduct_id());
             statement.setInt(2, product.getStation_id());
+            statement.setInt(3, product.getStock());
             statement.executeUpdate();
             System.out.println("Product created successfully.");
         } catch (SQLException e) {
@@ -40,6 +41,7 @@ public class ProductRepository {
                 product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
                 product.setStation_id(resultSet.getInt("station_id"));
+                product.setStock(resultSet.getInt("stock"));
             }
         } catch (SQLException e) {
             System.out.println("Error getting product by ID.");
@@ -57,6 +59,7 @@ public class ProductRepository {
                 Product product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
                 product.setStation_id(resultSet.getInt("station_id"));
+                product.setStock(resultSet.getInt("stock"));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -76,6 +79,7 @@ public class ProductRepository {
                 Product product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
                 product.setStation_id(resultSet.getInt("station_id"));
+                product.setStock(resultSet.getInt("stock"));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -86,10 +90,11 @@ public class ProductRepository {
     }
 
     public void updateProduct(Product product) {
-        String query = "UPDATE Product SET station_id = ? WHERE product_id = ?";
+        String query = "UPDATE Product SET station_id = ?, stock = ? WHERE product_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, product.getStation_id());
-            statement.setInt(2, product.getProduct_id());
+            statement.setInt(2, product.getStock());
+            statement.setInt(3, product.getProduct_id());
             statement.executeUpdate();
             System.out.println("Product updated successfully.");
         } catch (SQLException e) {
@@ -108,6 +113,18 @@ public class ProductRepository {
         } catch (SQLException e) {
             System.out.println("Error deleting product.");
             e.printStackTrace();
+        }
+    }
+
+    public void updateProductStock(int productId, int stationId, int quantity) {
+        Product product = getProductById(productId, stationId);
+        if (product != null) {
+            int newStock = product.getStock() + quantity;
+            product.setStock(newStock);
+            updateProduct(product);
+            System.out.println("Product stock updated successfully for product with ID: " + productId);
+        } else {
+            System.out.println("Product with ID " + productId + " not found.");
         }
     }
 }

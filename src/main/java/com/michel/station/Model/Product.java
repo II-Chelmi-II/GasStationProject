@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class Product {
     private int product_id;
     private int station_id;
+    private int stock;
 }
