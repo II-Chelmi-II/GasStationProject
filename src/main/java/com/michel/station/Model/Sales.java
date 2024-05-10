@@ -14,5 +14,5 @@ public class Sales {
     private int sale_id;
     private int product_id;
     private int station_id;
-    private BigDecimal amount;
+    private BigDecimal quantity;
 }

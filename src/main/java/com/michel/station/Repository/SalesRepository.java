@@ -2,7 +2,6 @@ package com.michel.station.Repository;
 
 import com.michel.station.DbConnection;
 import com.michel.station.Model.Sales;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,12 +17,12 @@ public class SalesRepository {
     }
 
     public void createSale(Sales sale) {
-        String query = "INSERT INTO Sales (sale_id, product_id, station_id, amount) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Sales (sale_id, product_id, station_id, quantity) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, sale.getSale_id());
             statement.setInt(2, sale.getProduct_id());
             statement.setInt(3, sale.getStation_id());
-            statement.setBigDecimal(4, sale.getAmount());
+            statement.setBigDecimal(4, sale.getQuantity());
             statement.executeUpdate();
             System.out.println("Sale created successfully.");
         } catch (SQLException e) {
@@ -43,7 +42,7 @@ public class SalesRepository {
                 sale.setSale_id(resultSet.getInt("sale_id"));
                 sale.setProduct_id(resultSet.getInt("product_id"));
                 sale.setStation_id(resultSet.getInt("station_id"));
-                sale.setAmount(resultSet.getBigDecimal("amount"));
+                sale.setQuantity(resultSet.getBigDecimal("quantity"));
             }
         } catch (SQLException e) {
             System.out.println("Error getting sale by ID.");
@@ -63,7 +62,7 @@ public class SalesRepository {
                 sale.setSale_id(resultSet.getInt("sale_id"));
                 sale.setProduct_id(resultSet.getInt("product_id"));
                 sale.setStation_id(resultSet.getInt("station_id"));
-                sale.setAmount(resultSet.getBigDecimal("amount"));
+                sale.setQuantity(resultSet.getBigDecimal("quantity"));
                 sales.add(sale);
             }
         } catch (SQLException e) {
@@ -74,11 +73,11 @@ public class SalesRepository {
     }
 
     public void updateSale(Sales sale) {
-        String query = "UPDATE Sales SET product_id = ?, station_id = ?, amount = ? WHERE sale_id = ?";
+        String query = "UPDATE Sales SET product_id = ?, station_id = ?, quantity = ? WHERE sale_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, sale.getProduct_id());
             statement.setInt(2, sale.getStation_id());
-            statement.setBigDecimal(3, sale.getAmount());
+            statement.setBigDecimal(3, sale.getQuantity());
             statement.setInt(4, sale.getSale_id());
             statement.executeUpdate();
             System.out.println("Sale updated successfully.");
