@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class Product {
     private int product_id;
-    private int station_id;
+    private String name;
 }
