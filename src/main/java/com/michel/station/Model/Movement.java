@@ -1,9 +1,6 @@
 package com.michel.station.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -16,4 +13,5 @@ public class Movement {
     private String type;
     private int stock;
     private LocalDate date;
+    private int product_id;
 }
