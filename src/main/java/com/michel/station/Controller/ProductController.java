@@ -24,14 +24,14 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam int stationId) {
-        List<Product> products = productRepository.getAllProductsByStation(stationId);
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam int name) {
+        List<Product> products = productRepository.getAllProductsByStation(name);
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/{productId}/{stationId}")
-    public ResponseEntity<Product> getProductById(@PathVariable int productId, @PathVariable int stationId) {
-        Product product = productRepository.getProductById(productId, stationId);
+    @GetMapping("/{productId}")
+    public ResponseEntity<Product> getProductById(@PathVariable int productId) {
+        Product product = productRepository.getProductById(productId);
         if (product != null) {
             return ResponseEntity.ok(product);
         } else {
@@ -46,16 +46,16 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}/{stationId}")
-    public ResponseEntity<Void> updateProduct(@PathVariable int productId, @PathVariable int stationId, @RequestBody Product product) {
+    public ResponseEntity<Void> updateProduct(@PathVariable int productId, @PathVariable String name, @RequestBody Product product) {
         product.setProduct_id(productId);
-        product.setStation_id(stationId);
+        product.setName(name);
         productRepository.updateProduct(product);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{productId}/{stationId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable int productId, @PathVariable int stationId) {
-        productRepository.deleteProduct(productId, stationId);
+    public ResponseEntity<Void> deleteProduct(@PathVariable int productId, @PathVariable String name) {
+        productRepository.deleteProduct(productId, name);
         return ResponseEntity.noContent().build();
     }
 }
