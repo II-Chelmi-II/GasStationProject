@@ -2,6 +2,8 @@ package com.michel.station.Repository;
 
 import com.michel.station.DbConnection;
 import com.michel.station.Model.ProductTemplate;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ProductTemplateRepository {
     private final Connection connection;
 

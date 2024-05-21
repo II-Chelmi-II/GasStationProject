@@ -2,6 +2,8 @@ package com.michel.station.Repository;
 
 import com.michel.station.DbConnection;
 import com.michel.station.Model.Product;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ProductRepository {
     private final Connection connection;
 
@@ -20,8 +23,7 @@ public class ProductRepository {
         String query = "INSERT INTO Product (product_id, station_id, stock) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, product.getProduct_id());
-            statement.setInt(2, product.getStation_id());
-            statement.setInt(3, product.getStock());
+            statement.setString(2, product.getName());
             statement.executeUpdate();
             System.out.println("Product created successfully.");
         } catch (SQLException e) {
@@ -30,18 +32,16 @@ public class ProductRepository {
         }
     }
 
-    public Product getProductById(int productId, int stationId) {
+    public Product getProductById(int productId) {
         Product product = null;
-        String query = "SELECT * FROM Product WHERE product_id = ? AND station_id = ?";
+        String query = "SELECT * FROM Product WHERE product_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, productId);
-            statement.setInt(2, stationId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
-                product.setStation_id(resultSet.getInt("station_id"));
-                product.setStock(resultSet.getInt("stock"));
+                product.setName(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println("Error getting product by ID.");
@@ -58,8 +58,7 @@ public class ProductRepository {
             while (resultSet.next()) {
                 Product product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
-                product.setStation_id(resultSet.getInt("station_id"));
-                product.setStock(resultSet.getInt("stock"));
+                product.setName(resultSet.getString("name"));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -78,8 +77,7 @@ public class ProductRepository {
             while (resultSet.next()) {
                 Product product = new Product();
                 product.setProduct_id(resultSet.getInt("product_id"));
-                product.setStation_id(resultSet.getInt("station_id"));
-                product.setStock(resultSet.getInt("stock"));
+                product.setName(resultSet.getString("name"));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -90,10 +88,9 @@ public class ProductRepository {
     }
 
     public void updateProduct(Product product) {
-        String query = "UPDATE Product SET station_id = ?, stock = ? WHERE product_id = ?";
+        String query = "UPDATE Product SET name = ? WHERE product_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, product.getStation_id());
-            statement.setInt(2, product.getStock());
+            statement.setString(1, product.getName());
             statement.setInt(3, product.getProduct_id());
             statement.executeUpdate();
             System.out.println("Product updated successfully.");
@@ -103,28 +100,16 @@ public class ProductRepository {
         }
     }
 
-    public void deleteProduct(int productId, int stationId) {
-        String query = "DELETE FROM Product WHERE product_id = ? AND station_id = ?";
+    public void deleteProduct(int productId, String name) {
+        String query = "DELETE FROM Product WHERE product_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, productId);
-            statement.setInt(2, stationId);
+            statement.setString(2, name);
             statement.executeUpdate();
             System.out.println("Product deleted successfully.");
         } catch (SQLException e) {
             System.out.println("Error deleting product.");
             e.printStackTrace();
-        }
-    }
-
-    public void updateProductStock(int productId, int stationId, int quantity) {
-        Product product = getProductById(productId, stationId);
-        if (product != null) {
-            int newStock = product.getStock() + quantity;
-            product.setStock(newStock);
-            updateProduct(product);
-            System.out.println("Product stock updated successfully for product with ID: " + productId);
-        } else {
-            System.out.println("Product with ID " + productId + " not found.");
         }
     }
 }
